@@ -1,0 +1,446 @@
+General
+1: Remove application = dnf remove
+2: ls -lart = list long all reverse time
+3: change directory = cd
+4: check for accounts with highest privilege = awk -F: '($3=="0"){print}' /etc/passwd
+5: check for empty password = cat /etc/shadow | awk -F: '($2==""){print $1}'
+6: change unknown users to sbin no login = vi /etc/passwd		/sbin/nologin or /bin/false
+7: check /etc/shadow for cleartext password = vi /etc/shadow
+8: sudo netstat -plantu = view all active connections
+9: safely change permissions of file (use if you have trouble editing file) = chattr -i
+10: hostname file = vi /etc/hosts
+11: check ip addresses = ifconfig
+12: check nic cards = ip addr
+13: Delete/Remove user (games, news, mail, landscape) = sudo deluser *username*
+14: Delete/Remove group = sudo delgroup *groupname*
+15: Make sure home directories have permissions 700 = chmod 700 /home/*
+16: check installed programs = dpkg --get-selections | grep -v deinstall | less
+17: check access.conf = vi /etc/security/access.conf
+18: check pam = ls -la /etc/pam.d	ls -a /lib/*/security	only session should default=1 others should be default=ignore
+19: change to tty2 = Ctrl+Alt+F2
+20: run last command as sudo = sudo!!
+21: install apps = yum install /rpm install
+22: remove apps and configuration files = rpm -e
+
+Aliases
+1: vi ~/.bashrc
+2: vi ~/.bash_aliases
+3: vi ~/.bash_profile
+4: vi ~/.bash_login
+5: vi ~/.profile
+6: vi /etc/bash.bashrc
+7: vi /etc/profile
+8: vi /etc/skel/.bashrc
+9: vi /etc/skel/.profile
+10: alias
+11: unalias -a name *name*
+
+Cron
+1: view scheduled cronjob = crontab -l
+2: view scheduled cronjob of different user = sudo crontab -u *user* -l
+3: edit scheduled crons = crontab -e
+4: delete cronjob = crontab -r
+5: Cron files = vi /etc/crontab	
+cd /etc/cron.d
+cd /etc/cron.hourly
+cd /etc/cron.daily
+apport
+apt
+aptitude
+bsdmainutils
+dpkg
+logrotate
+man-db
+mlocate
+passwd
+sopularity-contest
+skhunter
+standard
+update-notifier-common
+cd /etc/cron.weekly
+apt-xapian-index
+man-db
+rkhunter
+cd /etc/cron.monthly
+cd /var/spool/cron/crontabs
+6: Stop cron = /etc/init.d/crond stop
+7: stop users from using cron = touch /etc/cron.deny
+awk -F: ‘{print $1}’ /etc/passwd | grep -v root > /etc/cron.deny
+chmod 600 /etc/cron.deny
+8: stop users from using at
+awk -F: ‘{print $1}’ /etc/passwd | grep -v root > /etc/cron.at
+chmod 600 /etc/cron.at
+9: allow users to use from = vi /etc/cron.allow
+*username*
+chmod 600 /etc/cron.allow
+
+Repos
+1: repositories = vi /etc/yum/version-groups.conf 
+Pkglist = glibc, sqlite, libcurl, nsss, yum-metadata-parser, rpm, rpm-libs, rpm-python, python, python-iniparse, python -urlgrabber, python-pycurl
+2: vi yum.conf
+[base]
+name=CentOS-$releasever - Base
+mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=os&infra=$infra
+baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+
+[updates]
+name=CentOS-$releasever - Updates
+mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=updates&infra=$infra
+baseurl=http://mirror.centos.org/centos/$releasever/updates/$basearch/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+
+[extras]
+name=CentOS-$releasever - Extras
+mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=extras&infra=$infra
+baseurl=http://mirror.centos.org/centos/$releasever/extras/$basearch/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+
+#additional packages that extend functionality of existing packages
+[centosplus]
+name=CentOS-$releasever - Plus
+mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=centosplus&infra=$infra
+baseurl=http://mirror.centos.org/centos/$releasever/centosplus/$basearch/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+enabled=0
+
+[contrib]
+name=CentOS-$releasever - Contrib
+mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=contrib&infra=$infra
+baseurl=http://mirror.centos.org/centos/$releasever/contrib/$basearch/
+gpgcheck=1
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+3: list all repositories = yum repolist all
+4: Clear all local repositories = sudo rm -rf /etc/apt/sources.list.d/*	sudo yum clean all
+
+Services
+1: view all running processes = sudo initctl list | grep running
+2: view all running services = service --status-all | less
+3: view all running services = ps aux | less
+4: view all running services in realtime = top
+5: View all running services = sudo initctl list | grep running
+6: Check status of service = sudo service [servicename] status
+7: keyloggers = lkl, uberkey, THC-vlogger, PyKeylogger, logkeys
+
+Sudo
+1: Allow user to sudo = vi /etc/sudoers	or ls -la /etc/sudoers.d
+**check to make sure group is correct**
+# Allow root to run any commands anywhere
+*username*    ALL=(ALL:ALL) ALL
+2:allow group to sudo = vi /etc/sudoers
+%*groupname* ALL=(ALL:ALL) ALL
+3: disable root login = sudo passwd -l root
+4: enable root login = sudo passwd -u root
+5: sudo -s = root shell		type exit or hit CTRL+D to leave
+
+Locked out of machine
+1: Hit e during grub then add rw init=/bin/bash to end of line that starts with linux
+2: hit Ctrl-x to boot
+
+Log files
+1: /var/log
+2: system log = /var/log/syslog
+3: ssh login attempts and authentication log = /var/log/auth.log
+4: Start log service = sudo start rsyslog
+5: cron log = /var/log/cron.log
+6: kernel log = /var/log/kern.log
+7: system boot log = /var/log/boot.log
+8: login records = /var/log/wtmp
+9: Check for override file = /etc/init/rsyslog.override
+
+Dhcp ip
+1: vi /etc/sysconfig/network-scripts/ifcfg-eth0
+DEVICE=eth0
+HWADDR=*macaddress*
+TYPE=ETHERNET
+UUID=*uniqueid*
+BOOTPROTO=dhcp
+DNS1=8.8.8.8
+DNS2=8.8.4.4
+2: restart network interface = sudo ifdown eth0 && sudo ifup eth0
+
+Static Ip
+1: vi /etc/sysconfig/network-scripts/ifcfg-eth0
+DEVICE=eth0
+HWADDR=*macaddress*
+TYPE=ETHERNET
+UUID=*uniqueid*
+BOOTPROTO=static
+IPADDR=192.168.1.2
+NETMASK=255.255.255.0
+GATEWAY=192.168.1.1
+DNS1=8.8.8.8
+DNS2=8.8.4.4
+iface eth0 inet static
+	address x.x.x.x
+	netmask x.x.x.x
+	network x.x.x.x
+broadcast x.x.x.x
+	gateway x.x.x.x
+dns-nameservers 172.240.241.25 8.8.8.8
+2: restart network interface = sudo ifdown eth0 & sudo ifup eth0
+
+IPtables
+1: remove all iptable rules = iptables -f
+2: view iptable rules = sudo iptables -L | less
+3: Allow port 53 in = sudo iptables -A INPUT -p tcp --dports 53 -j ACCEPT
+4: Allow port 53 out = sudo iptables -A OUTPUT -p tcp --dports 53 -j ACCEPT
+5: Allow ports 53,80,443 in = iptables -A INPUT -p tcp  --match multiport --dports 53,80,443 -j ACCEPT
+6: Allow all ping requests in = sudo iptables -A INPUT -p icmp -j ACCEPT
+7: Allow ping request out = sudo iptables -A OUTPUT -p icmp --icmp-type 8 -j ACCEPT
+8: Allow ping reply in = sudo iptables -A INPUT -p icmp --icmp-type 0 -j ACCEPT
+9: deny all in = sudo iptables -P INPUT DROP
+10: deny all forward = sudo iptables -P FORWARD DROP
+11: deny all output = sudo iptables -P OUTPUT DROP
+12: Deny ip = sudo iptables -A INPUT -s x.x.x.x -j DROP
+13: Save = iptables-save
+14: Delete rule = sudo iptables -D INPUT -p tcp --dports 53 -j ACCEPT
+15: clear all rules = sudo iptables -P INPUT ACCEPT
+sudo iptables -P FORWARD ACCEPT
+sudo iptables -P OUTPUT ACCEPT
+sudo iptables -F
+sudo iptables -X
+sudo iptables -t nat -F
+sudo iptables -t nat -X
+sudo iptables -t mangle -F
+sudo iptables -t mangle -X
+sudo iptables -t raw -F
+sudo iptables -t raw -X
+16: make iptables automatically load on startup = sudo vi /etc/sysconfig/iptables-config
+IPTABLES_SAVE_ON_RESTART=”yes”
+IPTABLES_SAVE_ON_STOP=”yes”
+
+Only allow one terminal at a time
+1: sudo vi /etc/securetty
+PermitRootLogin no
+tty1
+#tty2
+#tty3
+#etc …
+#tty63
+Also comment out all other ttys except lxc
+2: sudo chmod 0600 /etc/securetty
+
+Shadow user with sudo powers
+1: sudo useradd -d /home/username -s /bin/bash -m username
+2: sudo usermod -aG wheel username
+3: sudo passwd username
+
+Stop IP spoofing
+1: sudo vi /etc/host.conf
+order bind,hosts
+nospoof on
+2: sudo sysctl =p
+3: sudo vi /etc/sysctl.conf
+**#prevent some spoofing attacks**
+# IP Spoofing protection
+​net.ipv4.conf.all.rp_filter = 1
+​net.ipv4.conf.default.rp_filter = 1
+4: sudo sysctl =p
+
+Restrict log access
+1: sudo vi /etc/sysctl.conf
+kernel.dmesg_restrict = 1
+2: sudo sysctl =p
+
+Stop ICMP redirects
+**do not accept ICMP redirects (prevent MITM attacks)**
+1: sudo vi /etc/sysctl.conf
+# Ignore ICMP redirects
+​net.ipv4.conf.all.accept_redirects = 0
+​net.ipv4.conf.default.accept_redirects = 0
+2: sudo sysctl =p
+
+Stop send redirects
+1: sudo vi /etc/sysctl.conf
+**#do not send ICMP redirects (we are not a router)**
+# Ignore send redirects
+​net.ipv4.conf.all.send_redirects = 0
+​net.ipv4.conf.default.send_redirects = 0
+2: sudo sysctl =p
+
+Stop Source packet routing
+**#do no accept IP source route packets (we are not a router)**
+1: sudo vi /etc/sysctl.conf
+# Disable source packet routing
+​net.ipv4.conf.all.accept_source_route = 0
+​net.ipv4.conf.default.accept_source_route = 0
+2: sudo sysctl =p
+
+Disable IPv6
+1: sudo vi /etc/sysctl.conf
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+2: sudo sysctl =p
+
+SELinux
+1:getenforce
+2:set enforce 1
+3:sestatus
+
+rkhunter
+1: sudo yum -y install epel-release
+2: sudo yum -y install rkhunter
+3: sudo rkhunter --update
+4: Run rkhunter scan = sudo rkhunter -c --propupd  --sk --rwo
+5: /var/log/rkhunter.log
+
+Harden SSL
+1: check openssl version needs to be updated if version 1.01f or older or if build date is before Apr 7 20:33:29 UTC 2014 = sudo openssl version
+2: sudo yum upgrade -y openssl libssl-dev
+3: sudo apt-cache policy openssl libssl-dev
+
+Newly created files have permissions 740
+** 0 : read, write and execute
+1 = read and write
+2 = read and execute
+3 = read only
+4 = write and execute
+5 = write only
+6 = execute only
+7 = no permissions**
+1: sudo vi /etc/init.d/rc
+umask 037
+2: sudo vi /etc/profile
+umask 037
+3: sudo vi /etc/login.defs
+FAILLOG_ENAB		yes
+LOG_OK_LOGINS		yes
+SYSLOG_SU_ENAB		yes
+SYSLOG_SG_ENAB		yes
+unmask 037
+LOGIN_RETRIES 		3
+LOGIN_TIMEOUT		60
+ENCRYPT_METHOD SHA512
+
+Secure shared memory
+1: sudo vi /etc/fstab
+tmpfs /run/shm tmpfs ro,noexec,nosuid 0 0
+2: sudo mount -a
+
+Harden /tmp
+1: vi /etc/fstab
+tmpfs /tmp tmpfs mode=1777,nosuid,nodev,noexec 0 0
+2: sudo mount -a
+3: mv /var/tmp /tmp
+4: sudo ln -s /tmp /var/tmp
+
+SSH
+sudo apt-get -y install openssh-server
+login attempts = /var/log/auth.log
+
+Harden ssh
+1: vi /etc/ssh/sshd_config
+Port 26
+Protocol 2
+UsePrivilegeSeparation yes
+LogLevel VERBOSE
+LoginGraceTime 30
+PermitRootLogin no
+StrictMode yes
+AllowTcpForwarding no
+IgnoreRhosts yes
+PermitEmptyPasswords no
+X11Forwarding no
+MaxAuthTries 3
+MaxStartups 2:30:10
+AllowUsers username@ipaddress
+2: sudo service ssh restart
+3: Check for active sessions = ss -n -o state established '( dport = :22 or sport = :22 )'
+4: sudo ufw limit ssh
+5: sudo service ssh restart
+6: ssh user@192.168.1.1 -p 26
+
+Ssh Banner
+1: vi /etc/ssh/sshd_config
+Banner *path to banner*
+2: vi *path to banner*
+Unauthorized access is prohibited. If you are not authorized disconnect immediately. 
+3: sudo service ssh restart
+
+Ssh keys
+ssh-keygen -t rsa -b 4096
+
+~/.ssh/*keyname*
+vi /etc/ssh/sshd_config
+PasswordAuthentication no
+PubkeyAuthentication yes
+AuthorizedKeysFile %h/.ssh/authorized_keys 
+Sudo service ssh restart	or /etc/init.d/sshd restart
+
+FTP
+Port 20,21,
+sftp/ssl 989, 990
+
+Limit su to specific group
+1: sudo groupadd *group*
+2: sudo usermod -a -G *group* *username*
+
+Harden 
+1: sudo chmod 640 /dev/fuse
+2: sudo chmod 640 /dev/kmsg
+3: sudo chmod 600 /boot/grub/grub.conf
+4: sudo chmod 700 /root
+
+Errors
+1: Fix unknown user/group in statoverride = sudo vi /var/lib/dpkg/statoverride
+2: fix *username* is not allowed to run sudo on *host* = sudo usermod -aG sudo,adm *username*
+3: fix vi adds characters when hitting arrow keys in insert mode = sudo vi ~/.exrc
+set nocompatible
+set backspace=2
+4: fix failed to fetch = rm -f /var/lib/apt/lists/lock
+5: couldn’t resolve host = vi /etc/resolv.conf
+Nameserver 8.8.8.8
+vi /etc/yum.conf
+ip_resolve=4
+6: if failed = vi /etc/hosts 64.235.47.134	mirrorlist.centos.org
+7: timeout on mirrorlist.centos.org = yum --disable=\* --enablerepo=base,updates update
+8: passwd: Authentication token manipulation = chattr -i /etc/shadow	if no work then
+mount -rw -o remount /
+9: initializing dst: openssl failure = cp /usr/lib/x86_64-linux-gnu/openssl-1.0.0/engines/libgost.so chroot/named/usr/lib/x86_64-linux-gnu/openssl-1.0.0/engines/libgost.so
+10: Add-apt-repository is not installed = sudo apt-get install software-properties-common python-software-properties
+11: name.swp is in use = delete .swp file	don’t ctrl+c out of file to prevent this
+
+Lynis
+1: sudo yum -y install epel-release
+2: sudo yum -y install lynis
+3: sudo lynis --auditor system
+4: /var/log/lynis.log
+
+Ldap (join domain)
+**allow port 389**
+Sudo yum -y sssd, adcli, oddjob, oddjob-mkhomedir, samba-common-tools, net-tools
+vi /etc/sysconfig/network-scripts/ifcfg-eth0
+DNS1=*addns*
+DOMAIN=*domainname*
+vi /etc/sysconfig/network
+HOSTNAME=*hostname*.*domainname*
+vi /etc/hosts
+*hostname*.*domainname*
+/etc/init.d/network restart
+Sudo realm join -v -U *user* *domain*
+
+Docker
+**if bind is in docker use docker ip for dns**
+1:Install docker = yum install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+apt-key fingerprint 0EBFCD88
+add-apt-repository “deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable”
+yum -y install docker-ce docker-ce-cli containerd.io
+apt-cache madison docker-ce
+apt-get install docker-ce=*version_string* docker-ce-cli=*version_string* containerd.io
+2: test if docker is working = sudo docker run hello-world
+3: check for docker ip (look for docker0) = ifconfig
+4: check docker images = docker container ls --all
+5: open docker = docker run -it *hostname* bash
+6: start docker container = docker attach *containerID*
+7: open specific docker image = docker exec -i -t *containerID* bash
+8: remove docker container = docker container rm *containerID*
+9: make sure docker starts up automatically = sudo systemctl enable docker
+
